@@ -18,7 +18,7 @@
         android:paddingLeft="15dp">
 
         <TextView
-            android:id="@+id/nameSounds"
+            android:id="@+id/nameArtist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="5555555555"
@@ -27,7 +27,7 @@
             android:layout_gravity="center"/>
 
         <TextView
-            android:id="@+id/nameArtist"
+            android:id="@+id/nameSounds"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="123123"

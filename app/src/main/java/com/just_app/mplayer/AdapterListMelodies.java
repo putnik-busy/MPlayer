@@ -2,6 +2,7 @@ package com.just_app.mplayer;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,8 @@ public class AdapterListMelodies extends BaseAdapter {
     private Context mContext;
     private ArrayList<Model_Melodies.Melodies> items;
     private DisplayImageOptions options;
+    private Model_Melodies.Melodies modelMelodiesMelodies;
+    protected ImageLoader imageLoader = ImageLoader.getInstance();
 
     public AdapterListMelodies(Context context, ArrayList<Model_Melodies.Melodies> items) {
         mContext = context;
@@ -50,20 +53,33 @@ public class AdapterListMelodies extends BaseAdapter {
             LayoutInflater mInflater = (LayoutInflater) mContext
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             v = mInflater.inflate(R.layout.listitems, parent, false);
-            holder= new ViewHolder();
+            holder = new ViewHolder();
 
-            holder.nameArtist= (TextView)v.findViewById(R.id.nameArtist);
-            holder.nameSounds = (TextView)v.findViewById(R.id.nameSounds);
-            holder.cover = (ImageView)v.findViewById(R.id.imageView1);
+            holder.nameArtist = (TextView) v.findViewById(R.id.nameArtist);
+            holder.nameSounds = (TextView) v.findViewById(R.id.nameSounds);
+            holder.cover = (ImageView) v.findViewById(R.id.imageView1);
             v.setTag(holder);
-        }else{
-            holder = (ViewHolder)v.getTag();
+        } else {
+            holder = (ViewHolder) v.getTag();
         }
-        Model_Melodies.Melodies modelMelodiesMelodies = items.get(position);
+        modelMelodiesMelodies = items.get(position);
         holder.nameArtist.setText(modelMelodiesMelodies.getArtist());
+        final Model_Melodies.Melodies modelMelodiesMelodiesCopy = modelMelodiesMelodies;
+        holder.nameArtist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (v.getId() == R.id.nameArtist) {
+                    Intent i = new Intent(mContext, Activity_Player.class);
+                    String imgUri = modelMelodiesMelodiesCopy.getPicUrl();
+                    String soundUri = modelMelodiesMelodiesCopy.getDemoUrl();
+                    i.putExtra(Activity_Player.EXTRA_IMAGE_URL, imgUri);
+                    i.putExtra(Activity_Player.EXTRA_SOUND_URL, soundUri);
+                    mContext.startActivity(i);
+                }
+            }
+        });
         holder.nameSounds.setText(modelMelodiesMelodies.getTitle());
-
-        ImageLoader imageLoader = ImageLoader.getInstance();
+        imageLoader = ImageLoader.getInstance();
         imageLoader.init(ImageLoaderConfiguration.createDefault(mContext));
         options = new DisplayImageOptions.Builder()
                 .showImageOnLoading(R.drawable.ic_stub)

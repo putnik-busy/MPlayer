@@ -50,11 +50,11 @@ public class MainActivity extends Activity {
     }
 
     private void customLoadMoreDataFromApi(int page) {
-        countItems = LIMIT*page;
+        countItems = LIMIT * page;
         RequestQueue queue = Volley.newRequestQueue(this);
-       JsonObjectRequest jsObjRequest = new JsonObjectRequest(
-               Request.Method.GET,
-                String.format(JSON_URL,LIMIT,countItems),
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                String.format(JSON_URL, LIMIT, countItems),
                 null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
