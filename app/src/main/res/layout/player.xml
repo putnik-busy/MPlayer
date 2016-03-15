@@ -26,6 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:onClick="startAudio"
             android:text="@string/startButton"/>
 
         <Button
@@ -33,6 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:onClick="pauseAudio"
             android:text="@string/pauseButton"/>
 
         <Button
@@ -40,6 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:onClick="stopAudio"
             android:text="@string/stopButton"/>
     </LinearLayout>
 
