@@ -52,7 +52,10 @@ public class AdapterListMelodies extends BaseAdapter {
         if (v == null) {
             LayoutInflater mInflater = (LayoutInflater) mContext
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = mInflater.inflate(R.layout.listitems, parent, false);
+            if (MainActivity.mIsListVisible)
+            v = mInflater.inflate(R.layout.list_customview, parent, false);
+            else
+                v = mInflater.inflate(R.layout.grid_customview, parent, false);
             holder = new ViewHolder();
 
             holder.nameArtist = (TextView) v.findViewById(R.id.nameArtist);
@@ -100,4 +103,3 @@ public class AdapterListMelodies extends BaseAdapter {
         public TextView nameSounds;
     }
 }
-

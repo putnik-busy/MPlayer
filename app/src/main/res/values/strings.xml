@@ -3,4 +3,6 @@
     <string name="startButton">start</string>
     <string name="pauseButton">pause</string>
     <string name="stopButton">stop</string>
+    <string name="chance_gridview">Show GridView</string>
+    <string name="imageview">imageview</string>
 </resources>

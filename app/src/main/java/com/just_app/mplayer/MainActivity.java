@@ -1,7 +1,12 @@
 package com.just_app.mplayer;
 
-import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.GridView;
 import android.widget.ListView;
 
 import com.android.volley.Request;
@@ -17,12 +22,15 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
 
     private static ArrayList<Model_Melodies.Melodies> melodiesList;
     private Model_Melodies melodies;
     private ListView mListView;
-    private AdapterListMelodies adapter;
+    private GridView mGridView;
+    protected static boolean mIsListVisible;
+    private SharedPreferences mSettings;
+    protected  AdapterListMelodies adapter;
     public final int LIMIT = 20;
     public final String BASE_URL = "https://api-content-beeline.intech-global.com";
     public int countItems = 0;
@@ -32,15 +40,36 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        setContentView(R.layout.main_activity);
+
+        mSettings = getPreferences(MODE_PRIVATE);
+
         melodies = new Model_Melodies();
         melodies.setMelodies(melodiesList);
         melodiesList = new ArrayList<>();
-        mListView = (ListView) findViewById(R.id.listView1);
         adapter = new AdapterListMelodies(MainActivity.this, melodiesList);
-        mListView.setAdapter(adapter);
+
+        mListView = (ListView) findViewById(R.id.listView1);
+        if (mListView != null) {
+            mListView.setAdapter(adapter);
+        }
+        mGridView = (GridView) findViewById(R.id.gridLayout);
+        if (mGridView != null) {
+            mGridView.setAdapter(adapter);
+        }
+
         customLoadMoreDataFromApi(countItems);
+
         mListView.setOnScrollListener(new EndlessScrollListener() {
+            @Override
+            public boolean onLoadMore(int page, int totalItemsCount) {
+                customLoadMoreDataFromApi(page);
+                return true;
+            }
+        });
+
+      mGridView.setOnScrollListener(new EndlessScrollListener() {
             @Override
             public boolean onLoadMore(int page, int totalItemsCount) {
                 customLoadMoreDataFromApi(page);
@@ -85,4 +114,40 @@ public class MainActivity extends Activity {
         return melodiesList;
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        menu.findItem(R.id.item).setChecked(mIsListVisible);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.item) {
+            boolean isChecked = !item.isChecked();
+            item.setChecked(isChecked);
+            item.setTitle(isChecked ? "Show GridView" : "Show ListView");
+            showListView(isChecked);
+            return true;
+        }
+        return false;
+    }
+
+    private void showListView(boolean show) {
+        mIsListVisible = show;
+        mListView.setVisibility(show ? View.VISIBLE : View.GONE);
+        mGridView.setVisibility(show ? View.GONE : View.VISIBLE);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        showListView(mSettings.getBoolean("show_list", true));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mSettings.edit().putBoolean("show_list", mIsListVisible).apply();
+    }
 }

@@ -4,7 +4,7 @@ package com.just_app.mplayer;
 import java.util.ArrayList;
 
 public class Model_Melodies {
-    private ArrayList<Melodies> mMelodies;
+    public ArrayList<Melodies> mMelodies;
 
     public ArrayList<Melodies> getMelodies() {
         return mMelodies;
