@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private GridView mGridView;
     protected static boolean mIsListVisible;
     private SharedPreferences mSettings;
-    protected  AdapterListMelodies adapter;
+    protected static AdapterListMelodies adapter;
     public final int LIMIT = 20;
     public final String BASE_URL = "https://api-content-beeline.intech-global.com";
     public int countItems = 0;
@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.main_activity);
 
         mSettings = getPreferences(MODE_PRIVATE);
