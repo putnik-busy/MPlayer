@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         JsonObjectRequest jsObjRequest = new JsonObjectRequest(
                 Request.Method.GET,
                 String.format(JSON_URL, LIMIT, countItems),
-                null, new Response.Listener<JSONObject>() {
+                "", new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
 
